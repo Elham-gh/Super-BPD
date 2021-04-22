@@ -73,12 +73,13 @@ class VGG16(nn.Module):
         stage4_maxpool = self.maxpool(stage4)
 
         stage5 = self.backbone_layer5(stage4_maxpool)
-
+        
+        ###* ASPP Module
         d2conv_ReLU = self.d2conv_ReLU(stage5)
         d4conv_ReLU = self.d4conv_ReLU(stage5)
         d8conv_ReLU = self.d8conv_ReLU(stage5)
         d16conv_ReLU = self.d16conv_ReLU(stage5)
-
+        
         dilated_conv_concat = torch.cat((d2conv_ReLU, d4conv_ReLU, d8conv_ReLU, d16conv_ReLU), 1)
 
         sconv1 = self.conv1(dilated_conv_concat)
