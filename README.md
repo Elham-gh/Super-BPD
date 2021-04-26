@@ -1,5 +1,8 @@
 # Super-BPD for Fast Image Segmentation (CVPR 2020)
 
+## Files' Description
+model.py    returns BPD vectors
+
 ## Introduction
 
 We propose direction-based super-BPD, an alternative to superpixel, for fast generic image segmentation, achieving state-of-the-art real-time result.
