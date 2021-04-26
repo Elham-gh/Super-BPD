@@ -56,9 +56,10 @@ class VGG16(nn.Module):
                                            nn.Conv2d(512, 2, kernel_size=1))
         
     def forward(self, x):
-
+        
         input_size = x.size()[2:]
-
+        
+        ###* Encoder, VGG
         stage1 = self.backbone_layer1(x)
         stage1_maxpool = self.maxpool(stage1)
 
@@ -81,7 +82,8 @@ class VGG16(nn.Module):
         d16conv_ReLU = self.d16conv_ReLU(stage5)
         
         dilated_conv_concat = torch.cat((d2conv_ReLU, d4conv_ReLU, d8conv_ReLU, d16conv_ReLU), 1)
-
+        
+        ###* A layer of convolution on different encoder layers
         sconv1 = self.conv1(dilated_conv_concat)
         sconv1 = F.interpolate(sconv1, size=tmp_size, mode='bilinear', align_corners=True)
 
@@ -95,7 +97,8 @@ class VGG16(nn.Module):
         sconv4 = F.interpolate(sconv4, size=tmp_size, mode='bilinear', align_corners=True)
 
         sconcat = torch.cat((sconv1, sconv2, sconv3, sconv4), 1)
-
+        
+        ###* 2-dim vector prediction
         pred_flux = self.predict_layer(sconcat)
         pred_flux = F.interpolate(pred_flux, size=input_size, mode='bilinear', align_corners=True)
 
