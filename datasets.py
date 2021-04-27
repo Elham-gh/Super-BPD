@@ -61,29 +61,38 @@ class FluxSegmentationDataset(Dataset):
         if self.random_flip:
             if random_int:
                 label = cv2.flip(label, 1)
-
+        
+        ###* Prevention of 0 label
         label += 1
-
+        
         gt_mask = label.astype(np.float32)
-
+        
+        ###* All existing labels
         categories = np.unique(label)
 
         if 0 in categories:
             raise RuntimeError('invalid category')
-
+        
+        ###* Label image zero padding
         label = cv2.copyMakeBorder(label, 1, 1, 1, 1, cv2.BORDER_CONSTANT, value=0)
-
+        
+        ###* equal sizes to label
         weight_matrix = np.zeros((height+2, width+2), dtype=np.float32)
+        ###* Two channels for 2-dim vectors
         direction_field = np.zeros((2, height+2, width+2), dtype=np.float32)
 
         for category in categories:
-            ###* Boundaries of img are boundary of the complete objects of each class not all edges withing the picture
+            ###* 0-1 masked GT image corresponding to the category
             img = (label == category).astype(np.uint8)
+            ###* A unique weight matrix for all categories, propertionate to reverse of number of pixels of category
             weight_matrix[img > 0] = 1. / np.sqrt(img.sum())
             
             ###* Making GT for BPDs, using a written function of opencv
+            ###* Boundaries of img are boundary of the complete objects of each class not all edges withing the picture
+            ###* _ = distance, labels = zero pixels
             _, labels = cv2.distanceTransformWithLabels(img, cv2.DIST_L2, cv2.DIST_MASK_PRECISE, labelType=cv2.DIST_LABEL_PIXEL)
 
+            ###* index = just zeros, place=background w.r.t. a category
             index = np.copy(labels)
             index[img > 0] = 0
             place =  np.argwhere(index > 0)
