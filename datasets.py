@@ -77,6 +77,7 @@ class FluxSegmentationDataset(Dataset):
         direction_field = np.zeros((2, height+2, width+2), dtype=np.float32)
 
         for category in categories:
+            ###* Boundaries of img are boundary of the complete objects of each class not all edges withing the picture
             img = (label == category).astype(np.uint8)
             weight_matrix[img > 0] = 1. / np.sqrt(img.sum())
             
