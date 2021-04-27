@@ -79,7 +79,8 @@ class FluxSegmentationDataset(Dataset):
         for category in categories:
             img = (label == category).astype(np.uint8)
             weight_matrix[img > 0] = 1. / np.sqrt(img.sum())
-
+            
+            ###* Making GT for BPDs, using a written function of opencv
             _, labels = cv2.distanceTransformWithLabels(img, cv2.DIST_L2, cv2.DIST_MASK_PRECISE, labelType=cv2.DIST_LABEL_PIXEL)
 
             index = np.copy(labels)
