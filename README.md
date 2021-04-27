@@ -1,7 +1,8 @@
 # Super-BPD for Fast Image Segmentation (CVPR 2020)
 
 ## Files' Description
-model.py    returns BPD vectors
+model.py                            returns BPD vectors
+train.py                            trains the network for returning BPDs
 
 ## Introduction
 
