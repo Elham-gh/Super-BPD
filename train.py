@@ -131,7 +131,7 @@ def main():
 
             global_step += 1
             
-            ###* vis_image = image
+            ###* vis_image = unnormalized input image
             ###* gt_mask = real labels + 1
             ###* gt_flix = direction field, BPD vectors
             Input_image, vis_image, gt_mask, gt_flux, weight_matrix, dataset_lendth, image_name = batch_data
