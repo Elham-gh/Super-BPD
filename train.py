@@ -130,7 +130,10 @@ def main():
         for i_iter, batch_data in enumerate(dataloader):
 
             global_step += 1
-
+            
+            ###* vis_image = image
+            ###* gt_mask = real labels + 1
+            ###* gt_flix = direction field, BPD vectors
             Input_image, vis_image, gt_mask, gt_flux, weight_matrix, dataset_lendth, image_name = batch_data
 
             optimizer.zero_grad()
