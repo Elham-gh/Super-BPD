@@ -5,6 +5,8 @@ model.py >> returns BPD vectors
 
 train.py >> trains the network for returning BPDs
 
+vis_flux.py >> Plotting image, GT, norm and angle of each
+
 ## Introduction
 
 We propose direction-based super-BPD, an alternative to superpixel, for fast generic image segmentation, achieving state-of-the-art real-time result.
