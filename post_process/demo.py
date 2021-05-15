@@ -54,5 +54,12 @@ cv2.imwrite('super_BPDs_after_dilation.png', label2color(super_BPDs_after_dilati
 
 
 def get_outputs(out=results):
-    return out
+    
+    root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = out
+    #root_points = root_points.cpu().numpy()
+    super_BPDs_before_dilation = super_BPDs_before_dilation.cpu().numpy()
+    super_BPDs_after_dilation = super_BPDs_after_dilation.cpu().numpy()
+    output = {'before': super_BPDs_before_dilation, 'after': super_BPDs_after_dilation}
+    
+    return output
     
