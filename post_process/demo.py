@@ -53,6 +53,7 @@ cv2.imwrite('super_BPDs_before_dilation.png', label2color(super_BPDs_before_dila
 cv2.imwrite('super_BPDs_after_dilation.png', label2color(super_BPDs_after_dilation))
 
 
+###* a function to return labeled results
 def get_outputs(out=results):
     
     root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = out
