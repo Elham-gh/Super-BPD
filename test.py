@@ -56,6 +56,7 @@ def main():
 
         print(i_iter, dataset_lendth)
 
+        ###* pred_flux          output image of model performed on input image
         pred_flux = model(Input_image.cuda())
 
         vis_flux(vis_image, pred_flux, gt_flux, gt_mask, image_name, args.test_vis_dir + args.dataset + '/')
