@@ -50,31 +50,37 @@ def vis_flux(vis_image, pred_flux, gt_flux, gt_mask, image_name, save_dir):
 
     fig = plt.figure(figsize=(10,6))
 
+    ###* ax0        input image
     ax0 = fig.add_subplot(231)
     ax0.imshow(vis_image[:,:,::-1])
 
+    ###* ax1        GT norm 
     ax1 = fig.add_subplot(232)
     ax1.set_title('Norm_gt')
     ax1.set_autoscale_on(True)
     im1 = ax1.imshow(norm_gt, cmap=cm.jet)
     plt.colorbar(im1,shrink=0.5)
 
+    ###* ax2        GT angle
     ax2 = fig.add_subplot(233)
     ax2.set_title('Angle_gt')
     ax2.set_autoscale_on(True)
     im2 = ax2.imshow(angle_gt, cmap=cm.jet)
     plt.colorbar(im2, shrink=0.5)
 
+    ###* ax5        GT labels
     ax5 = fig.add_subplot(234)
     color_mask = label2color(gt_mask)
     ax5.imshow(color_mask)
 
+    ###* ax4        pred norm
     ax4 = fig.add_subplot(235)
     ax4.set_title('Norm_pred')
     ax4.set_autoscale_on(True)
     im4 = ax4.imshow(norm_pred, cmap=cm.jet)
     plt.colorbar(im4,shrink=0.5)
 
+    ###* ax5        perd angle
     ax5 = fig.add_subplot(236)
     ax5.set_title('Angle_pred')
     ax5.set_autoscale_on(True)
