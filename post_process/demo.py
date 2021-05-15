@@ -38,6 +38,7 @@ height, width = angles.shape
 
 # unit: degree
 # theta_a, theta_l, theta_s, S_o, 45, 116, 68, 5
+###* results includes final outputs
 results = bpd_cuda.forward(angles, height, width, 45, 116, 68, 5)
 root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = results
 
@@ -51,3 +52,7 @@ cv2.imwrite('super_BPDs.png', label2color(super_BPDs))
 cv2.imwrite('super_BPDs_before_dilation.png', label2color(super_BPDs_before_dilation))
 cv2.imwrite('super_BPDs_after_dilation.png', label2color(super_BPDs_after_dilation))
 
+
+def get_outputs(out=results):
+    return out
+    
