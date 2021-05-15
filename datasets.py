@@ -93,7 +93,7 @@ class FluxSegmentationDataset(Dataset):
             _, labels = cv2.distanceTransformWithLabels(img, cv2.DIST_L2, cv2.DIST_MASK_PRECISE, labelType=cv2.DIST_LABEL_PIXEL)
 
             ###* index = zeros to which a foreground pixels is closest, place = indices of zeros ### supposed vice vera
-            index = np.copy(labels)`
+            index = np.copy(labels)
             index[img > 0] = 0
             place =  np.argwhere(index > 0)
             
