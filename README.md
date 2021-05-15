@@ -9,6 +9,8 @@ vis_flux.py >> Plotting image, GT, norm and angle of each
 
 test.py >> visflux on new data
 
+postprocess/demo.py   results includes final outputs
+
 ## Introduction
 
 We propose direction-based super-BPD, an alternative to superpixel, for fast generic image segmentation, achieving state-of-the-art real-time result.
