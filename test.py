@@ -46,6 +46,13 @@ def main():
     for i_iter, batch_data in enumerate(dataloader):
 
         Input_image, vis_image, gt_mask, gt_flux, weight_matrix, dataset_lendth, image_name = batch_data
+        ###* input_image        normalized, RGB input image
+        ###* vis_image          original input image
+        ###* gt_mask            label + 1 (no zero class)
+        ###* gt_flux            direction_field
+        ###* weight_matrix      inversely proportional to # labels of a class
+        ###* dataset_length     # images
+        ###* image_name         
 
         print(i_iter, dataset_lendth)
 
