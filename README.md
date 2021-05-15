@@ -7,7 +7,7 @@ train.py >> trains the network for returning BPDs
 
 vis_flux.py >> Plotting image, GT, norm and angle of each
 
-test.py >> visflux on new data
+test.py >> vis_flux on new data; returns norms and angles
 
 postprocess/demo.py >> results includes final outputs; get_outputs returns required outputs
 
