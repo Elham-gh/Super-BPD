@@ -6,6 +6,7 @@ import torch
 import torch.nn as nn
 import scipy.io as sio
 from torch.utils.data import Dataset, DataLoader
+import numpy as np
 
 
 DATASET = 'PascalContext'
@@ -30,18 +31,21 @@ args = get_arguments()
 
 def main():
     
-    dataloader = DataLoader(FluxSegmentationDataset(dataset=args.dataset, mode='test'), batch_size=1, shuffle=False, num_workers=4)
-    
-    for i_iter, batch_data in enumerate(dataloader):
+    with open('/content/SuperBPD/data/PascalContext/test.txt', 'r') as f:
+        names = f.readlines()
 
-        _, _, _, _, _, _, image_name = batch_data
+    for i_iter, image_name in enumerate(names):
 
-        print(i_iter, image_name[0])
-        path = 'test_pred_flux/PascalContext/' + image_name[0] + '.mat'
+        print(i_iter, image_name)
+        path = 'test_pred_flux/PascalContext/' + image_name[:-1] + '.mat'
 
-        before, after = generate_cluster.main(path, True)
-        print('***********************************/n', before)
-        print('***********************************/n', after)
+        out = generate_cluster.main(path, True)
+        b = out['before']
+        a = out['after']
+        # print('***********************************\n', b)
+        # print('***********************************\n', a)
+        #print(np.unique(b).shape)=(1534,)
+        #print(np.unique(a).shape)=(90,)
         hi
         
 if __name__ == '__main__':
