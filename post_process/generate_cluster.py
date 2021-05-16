@@ -46,7 +46,7 @@ def write(results):
 
 
 ###* a function to return labeled results
-def get_output(out=results):
+def get_output(out):
     
     root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = results
     
