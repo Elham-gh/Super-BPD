@@ -56,7 +56,7 @@ def main(path='./2009_004607.mat', writing=True):
     flux = sio.loadmat(path)['flux']
     flux = torch.from_numpy(flux).cuda()
 
-    angles = torch.atan2(flux[1,...], flux[0,...])
+    angles = torch.atan2(flux[1,...], flux[0,...]).contiguous()
     angles[angles < 0] += 2*math.pi
 
     height, width = angles.shape
@@ -67,7 +67,6 @@ def main(path='./2009_004607.mat', writing=True):
     results = bpd_cuda.forward(angles, height, width, 45, 116, 68, 5)
     root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = results
     
-    root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = out
     super_BPDs_before_dilation = super_BPDs_before_dilation.cpu().numpy()
     super_BPDs_after_dilation = super_BPDs_after_dilation.cpu().numpy()
 
