@@ -46,17 +46,10 @@ def write(results):
 
 
 ###* a function to return labeled results
-def get_output(out):
+#def get_output(super_BPDs_before_dilation, super_BPDs_after_dilation):
     
-    results = out
-    root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = results
+#    return {'before': super_BPDs_before_dilation, 'after': super_BPDs_after_dilation}
     
-    root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = out
-    super_BPDs_before_dilation = super_BPDs_before_dilation.cpu().numpy()
-    super_BPDs_after_dilation = super_BPDs_after_dilation.cpu().numpy()
-    output = {'before': super_BPDs_before_dilation, 'after': super_BPDs_after_dilation}
-    
-    return output
   
 def main(path='./2009_004607.mat', writing=True):
     
@@ -72,9 +65,15 @@ def main(path='./2009_004607.mat', writing=True):
     # theta_a, theta_l, theta_s, S_o, 45, 116, 68, 5
     ###* results includes final outputs
     results = bpd_cuda.forward(angles, height, width, 45, 116, 68, 5)
+    root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = results
     
-    if writing:
-        write(results)
+    root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = out
+    super_BPDs_before_dilation = super_BPDs_before_dilation.cpu().numpy()
+    super_BPDs_after_dilation = super_BPDs_after_dilation.cpu().numpy()
+
+    
+    #if writing:
+    #    write(results)
         
-    return get_output(results)
+    return {'before': super_BPDs_before_dilation, 'after': super_BPDs_after_dilation}
     
