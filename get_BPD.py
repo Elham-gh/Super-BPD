@@ -7,6 +7,7 @@ import torch.nn as nn
 import scipy.io as sio
 from torch.utils.data import Dataset, DataLoader
 
+
 DATASET = 'PascalContext'
 TEST_VIS_DIR = './test_pred_flux/'
 SNAPSHOT_DIR = './snapshots/'
@@ -26,7 +27,6 @@ def get_arguments():
     return parser.parse_args()
 
 args = get_arguments()
-'''
 
 def main():
     
@@ -36,8 +36,8 @@ def main():
 
         _, _, _, _, _, _, image_name = batch_data
 
-        print(i_iter, image_name)
-        path = 'test_pred_flux/' + image_name
+        print(i_iter, image_name[0])
+        path = 'test_pred_flux/PascalContext/' + image_name[0] + '.mat'
 
         before, after = generate_cluster.main(path, True)
         print('***********************************/n', before)
@@ -46,5 +46,3 @@ def main():
         
 if __name__ == '__main__':
     main()
-
-
