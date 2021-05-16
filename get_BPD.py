@@ -1,5 +1,11 @@
 from datasets import FluxSegmentationDataset
 from post_process import generate_cluster
+import argparse
+import os
+import torch
+import torch.nn as nn
+import scipy.io as sio
+from torch.utils.data import Dataset, DataLoader
 
 DATASET = 'PascalContext'
 TEST_VIS_DIR = './test_pred_flux/'
@@ -20,6 +26,7 @@ def get_arguments():
     return parser.parse_args()
 
 args = get_arguments()
+'''
 
 def main():
     
