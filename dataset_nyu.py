@@ -35,9 +35,13 @@ class FluxSegmentationDataset(Dataset):
 
         image_name = self.image_names[index]
 
-        image_path = osp.join('nyu', self.mode, 'images', image_name + '.png')
+        # image_path = osp.join('nyu', self.mode, 'images', image_name + '.png')
+        image_path = osp.join('/content/drive/MyDrive/datasets/nyudv2/rgb', image_name[-6:] + '.png')
+        print(image_path)
         
         image = cv2.imread(image_path, 1)
+        print(image)
+        hi
         
         if self.random_flip:
             if random_int:
