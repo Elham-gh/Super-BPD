@@ -63,7 +63,7 @@ class FluxSegmentationDataset(Dataset):
             label = cv2.imread(label_path, 0)
         
         elif self.dataset == 'nyu':
-            label_path = osp.join(self.dataset, self.mode, 'GT', image_name + '.png')
+            label_path = osp.join('/content/drive/MyDrive/datasets/nyudv2/masks', image_name[-6:] + '.png')
             label = cv2.imread(label_path, 0)
 
         if self.random_flip:
@@ -124,7 +124,3 @@ class FluxSegmentationDataset(Dataset):
             image_name = image_name.split('/')[-1]
 
         return image, vis_image, gt_mask, direction_field, weight_matrix, self.dataset_length, image_name
-
-
-
-
