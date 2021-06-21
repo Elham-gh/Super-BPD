@@ -13,7 +13,8 @@ class FluxSegmentationDataset(Dataset):
         self.dataset = dataset
         self.mode = mode
 
-        file_dir = self.dataset + '/' + self.mode + '/' + self.mode + '.txt'
+        # file_dir = self.dataset + '/' + self.mode + '/' + self.mode + '.txt'
+        file_dir = '/content/SuperBPD/data/nyu/val.txt'
 
         self.random_flip = False
         
@@ -21,7 +22,9 @@ class FluxSegmentationDataset(Dataset):
             self.random_flip = True
 
         with open(file_dir, 'r') as f:
-            self.image_names = f.read().splitlines()
+            names = f.read().splitlines()
+            self.image_names = [name[4:] for name in names]
+
 
         self.dataset_length = len(self.image_names)
     
@@ -37,11 +40,8 @@ class FluxSegmentationDataset(Dataset):
 
         # image_path = osp.join('nyu', self.mode, 'images', image_name + '.png')
         image_path = osp.join('/content/drive/MyDrive/datasets/nyudv2/rgb', image_name[-6:] + '.png')
-        print(image_path)
         
         image = cv2.imread(image_path, 1)
-        print(image)
-        hi
         
         if self.random_flip:
             if random_int:
