@@ -10,7 +10,7 @@ import scipy.io as sio
 from torch.utils.data import Dataset, DataLoader
 
 DATASET = 'nyu'
-TEST_VIS_DIR = './test_nyu_pred_flux/'
+TEST_VIS_DIR = './test_CEN_nyu_pred_flux/'
 SNAPSHOT_DIR = './snapshots/'
 SAVED_MODEL = './saved/'
 
