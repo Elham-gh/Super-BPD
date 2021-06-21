@@ -7,10 +7,11 @@ import torch.nn as nn
 import scipy.io as sio
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
+import pickle
 
 
 DATASET = 'nyu'
-TEST_VIS_DIR = './test_nyu_pred_flux/'
+TEST_VIS_DIR = './test_CEN_nyu_pred_flux/'
 
 def get_arguments():
     """Parse all the arguments provided from the CLI.
@@ -28,26 +29,28 @@ args = get_arguments()
 
 def main():
     
-    with open('/content/SuperBPD/nyu/val/val.txt', 'r') as f:
-        names = f.readlines()
+    with open('/content/SuperBPD/data/nyu/val.txt', 'r') as f:
+        # names = f.readlines()
+        image_names = f.read().splitlines()
+        names = [name[4:] for name in image_names]
 
-    with open('/content/SuperBPD/bpds.txt', 'w') as f:
+    # with open('/content/SuperBPD/bpds.txt', 'w') as f:
+    a, b = {}, {}
+    for i_iter, image_name in enumerate(names):
 
-        for i_iter, image_name in enumerate(names):
+        print(i_iter, image_name)
+        path = 'test_CEN_nyu_pred_flux/nyu/' + image_name + '.mat'
+        
+        out = generate_cluster.main(path, True)
+        b[image_name] = out['before']
+        a[image_name] = out['after']
+            
+    after = open('./CEN_bpds.pkl', 'wb')
+    pickle.dump(a, after)
 
-            print(i_iter, image_name)
-            path = 'test_nyu_pred_flux/nyu/' + image_name[:-1] + '.mat'
-
-            out = generate_cluster.main(path, True)
-            b = out['before']
-            a = out['after']
-            # print(np.unique(b).shape)#=(5335,)
-            # print(np.unique(a).shape)#=(403,)
-            f.write(image_name[:-1] + '\n')
-            f.write(str(a))
-            f.write('\n')
-
-
+    before = open('./CEN_bpds_b.pkl', 'wb')
+    pickle.dump(b, before)
+    
         
 if __name__ == '__main__':
     main()
