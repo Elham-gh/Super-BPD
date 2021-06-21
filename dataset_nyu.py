@@ -124,3 +124,5 @@ class FluxSegmentationDataset(Dataset):
             image_name = image_name.split('/')[-1]
 
         return image, vis_image, gt_mask, direction_field, weight_matrix, self.dataset_length, image_name
+
+    
