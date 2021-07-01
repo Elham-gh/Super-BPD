@@ -14,7 +14,7 @@ class FluxSegmentationDataset(Dataset):
         self.mode = mode
 
         # file_dir = self.dataset + '/' + self.mode + '/' + self.mode + '.txt'
-        file_dir = '/content/SuperBPD/data/nyu/val.txt'
+        file_dir = '/content/SuperBPD/data/nyu/val.txt' ###* train.txt
 
         self.random_flip = False
         
