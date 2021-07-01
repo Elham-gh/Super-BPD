@@ -11,6 +11,8 @@ test.py >> vis_flux on new data; returns norms and angles
 
 postprocess/demo.py >> results includes final outputs; get_outputs returns required outputs
 
+*** to produce super bpds for training set change val.txt into train.txt in dataset_nyu.py
+
 
 ## Introduction
 
