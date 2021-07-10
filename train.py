@@ -12,7 +12,7 @@ INI_LEARNING_RATE = 1e-5
 WEIGHT_DECAY = 5e-4
 EPOCHES = 10000
 DATASET = 'PascalContext'
-SNAPSHOT_DIR = './snapshots/'
+SNAPSHOT_DIR = '/content/drive/MyDrive/SuperBPD/super_resnet/snapshots/'
 TRAIN_DEBUG_VIS_DIR = './train_debug_vis/'
 
 def get_arguments():
@@ -77,7 +77,7 @@ def adjust_learning_rate(optimizer, step):
         for param_group in optimizer.param_groups:
             param_group['lr'] *= 0.1
 
-def main():
+def main(): 
 
     if not os.path.exists(args.snapshot_dir):
         os.makedirs(args.snapshot_dir)
@@ -176,4 +176,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
 
