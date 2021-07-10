@@ -98,7 +98,7 @@ def main():
     # saved_key_VGG = list(saved_dict_VGG.keys())
     # print(model_key)
     mismatch = ['bn1.running_var', 'layer1.0.conv1.weight', 'layer1.0.downsample.0.weight']
-    for i in model_key[4:]:
+    for i in model_key[5:]:
         if i in mismatch:
             continue
         if i in saved_dict.keys():
@@ -176,8 +176,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
 
