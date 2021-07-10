@@ -88,14 +88,24 @@ def main():
     # model = VGG16()
     model = ResNetLW(Bottleneck, [3, 4, 6, 3])
 
-    # saved_dict = torch.load('/content/drive/MyDrive/SuperBPD/vgg16_pretrain.pth')
+
     saved_dict = torch.load('/content/drive/MyDrive/resnet/resnet50.pth')
     model_dict = model.state_dict()
     saved_key = list(saved_dict.keys())
     model_key = list(model_dict.keys())
 
-    for i in range(26):
-        model_dict[model_key[i]] = saved_dict[saved_key[i]]
+    # saved_dict_VGG = torch.load('/content/drive/MyDrive/SuperBPD/vgg16_pretrain.pth')
+    # saved_key_VGG = list(saved_dict_VGG.keys())
+    # print(model_key)
+    mismatch = ['bn1.running_var', 'layer1.0.conv1.weight', 'layer1.0.downsample.0.weight']
+    for i in model_key[4:]:
+        if i in mismatch:
+            continue
+        if i in saved_dict.keys():
+            model_dict[i] = saved_dict[i]
+            
+    # for i in range(26):
+    #     model_dict[model_key[i]] = saved_dict_VGG[saved_key_VGG[i]]
     
     model.load_state_dict(model_dict)
 
