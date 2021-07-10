@@ -89,40 +89,40 @@ def main():
     model = ResNetLW(Bottleneck, [3, 4, 6, 3])
 
     # saved_dict = torch.load('/content/drive/MyDrive/SuperBPD/vgg16_pretrain.pth')
-    # saved_dict = torch.load('/content/drive/MyDrive/resnet/resnet50.pth')
-    # model_dict = model.state_dict()
-    # saved_key = list(saved_dict.keys())
-    # model_key = list(model_dict.keys())
+    saved_dict = torch.load('/content/drive/MyDrive/resnet/resnet50.pth')
+    model_dict = model.state_dict()
+    saved_key = list(saved_dict.keys())
+    model_key = list(model_dict.keys())
 
-    # for i in range(26):
-    #     model_dict[model_key[i]] = saved_dict[saved_key[i]]
+    for i in range(26):
+        model_dict[model_key[i]] = saved_dict[saved_key[i]]
     
-    # model.load_state_dict(model_dict)
+    model.load_state_dict(model_dict)
 
     model.train()
     model.cuda()
     
-    # optimizer = torch.optim.Adam(
-    #     params=[
-    #         {
-    #             "params": get_params(model, key="backbone", bias=False),
-    #             "lr": INI_LEARNING_RATE
-    #         },
-    #         {
-    #             "params": get_params(model, key="backbone", bias=True),
-    #             "lr": 2 * INI_LEARNING_RATE
-    #         },
-    #         {
-    #             "params": get_params(model, key="added", bias=False),
-    #             "lr": 10 * INI_LEARNING_RATE  
-    #         },
-    #         {
-    #             "params": get_params(model, key="added", bias=True),
-    #             "lr": 20 * INI_LEARNING_RATE   
-    #         },
-    #     ],
-    #     weight_decay=WEIGHT_DECAY
-    # )
+    optimizer = torch.optim.Adam(
+        params=[
+            {
+                "params": get_params(model, key="backbone", bias=False),
+                "lr": INI_LEARNING_RATE
+            },
+            {
+                "params": get_params(model, key="backbone", bias=True),
+                "lr": 2 * INI_LEARNING_RATE
+            },
+            {
+                "params": get_params(model, key="added", bias=False),
+                "lr": 10 * INI_LEARNING_RATE  
+            },
+            {
+                "params": get_params(model, key="added", bias=True),
+                "lr": 20 * INI_LEARNING_RATE   
+            },
+        ],
+        weight_decay=WEIGHT_DECAY
+    )
 
     dataloader = DataLoader(FluxSegmentationDataset(dataset=args.dataset, mode='train'), batch_size=1, shuffle=True, num_workers=4)
 
@@ -139,7 +139,7 @@ def main():
             ###* gt_flix = direction field, BPD vectors
             Input_image, vis_image, gt_mask, gt_flux, weight_matrix, dataset_lendth, image_name = batch_data
 
-            # optimizer.zero_grad()
+            optimizer.zero_grad()
 
             pred_flux = model(Input_image.cuda())
 
