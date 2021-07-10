@@ -173,13 +173,13 @@ class Bottleneck(nn.Module):
 
     def __init__(self, inplanes, planes, stride=1, downsample=None):
         super(Bottleneck, self).__init__()
-        self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, bias=False)
+        self.conv1 = nn.Conv2d(inplanes, planes, kernel_size=1, bias=True)
         self.bn1 = nn.BatchNorm2d(planes)
         self.conv2 = nn.Conv2d(
-            planes, planes, kernel_size=3, stride=stride, padding=1, bias=False
+            planes, planes, kernel_size=3, stride=stride, padding=1, bias=True
         )
         self.bn2 = nn.BatchNorm2d(planes)
-        self.conv3 = nn.Conv2d(planes, planes * 4, kernel_size=1, bias=False)
+        self.conv3 = nn.Conv2d(planes, planes * 4, kernel_size=1, bias=True)
         self.bn3 = nn.BatchNorm2d(planes * 4)
         self.relu = nn.ReLU(inplace=True)
         self.downsample = downsample
@@ -212,7 +212,7 @@ class ResNetLW(nn.Module):
         self.inplanes = 64
         super(ResNetLW, self).__init__()
         self.do = nn.Dropout(p=0.5)
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3, bias=False)
+        self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3, bias=True)
         self.bn1 = nn.BatchNorm2d(64)
         self.relu = nn.ReLU(inplace=True)
         self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
@@ -248,7 +248,7 @@ class ResNetLW(nn.Module):
                     planes * block.expansion,
                     kernel_size=1,
                     stride=stride,
-                    bias=False,
+                    bias=True,
                 ),
                 nn.BatchNorm2d(planes * block.expansion),
             )
@@ -279,8 +279,8 @@ class ResNetLW(nn.Module):
         ###* ASPP Module
         d2conv_ReLU = self.d2conv_ReLU(l3) #[1, 128, 24, 32]        
         d4conv_ReLU = self.d4conv_ReLU(l3) #[1, 128, 24, 32]
-        d8conv_ReLU = self.d8conv_ReLU(l3)#[1, 128, 24, 32]
-        d16conv_ReLU = self.d16conv_ReLU(l3)#[1, 128, 24, 32]
+        d8conv_ReLU = self.d8conv_ReLU(l3) #[1, 128, 24, 32]
+        d16conv_ReLU = self.d16conv_ReLU(l3) #[1, 128, 24, 32]
 
         dilated_conv_concat = torch.cat((d2conv_ReLU, d4conv_ReLU, d8conv_ReLU, d16conv_ReLU), 1) #[1, 512, 21, 32]
 
