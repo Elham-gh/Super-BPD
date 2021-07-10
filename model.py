@@ -229,7 +229,7 @@ class ResNetLW(nn.Module):
         self.d16conv_ReLU = nn.Sequential(nn.Conv2d(1024, 128, kernel_size=3, padding=16, dilation=16), nn.ReLU(inplace=True))
       
         self.conv1a = nn.Sequential(nn.Conv2d(512, 256, kernel_size=1), nn.ReLU(inplace=True))
-        self.conv2a = nn.Sequential(nn.Conv2d(512, 256, kernel_size=1), nn.ReLU(inplace=True))
+        self.conv2a = nn.Sequential(nn.Conv2d(1024, 256, kernel_size=1), nn.ReLU(inplace=True))
         self.conv3a = nn.Sequential(nn.Conv2d(512, 256, kernel_size=1), nn.ReLU(inplace=True))
         self.conv4a = nn.Sequential(nn.Conv2d(256, 256, kernel_size=1), nn.ReLU(inplace=True))
 
@@ -262,7 +262,9 @@ class ResNetLW(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
-        # print('242', x.size()) [1, 3, 333, 500]
+
+        input_size = x.size()[2:] #[1, 3, 333, 500]
+        
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
@@ -275,13 +277,13 @@ class ResNetLW(nn.Module):
         # l4 = self.layer4(l3) #[1, 2048, 12, 16]
                 
         ###* ASPP Module
-        d2conv_ReLU = self.d2conv_ReLU(l3)
-        d4conv_ReLU = self.d4conv_ReLU(l3)
-        d8conv_ReLU = self.d8conv_ReLU(l3)
-        d16conv_ReLU = self.d16conv_ReLU(l3)
-        
-        dilated_conv_concat = torch.cat((d2conv_ReLU, d4conv_ReLU, d8conv_ReLU, d16conv_ReLU), 1)
-        
+        d2conv_ReLU = self.d2conv_ReLU(l3) #[1, 128, 24, 32]        
+        d4conv_ReLU = self.d4conv_ReLU(l3) #[1, 128, 24, 32]
+        d8conv_ReLU = self.d8conv_ReLU(l3)#[1, 128, 24, 32]
+        d16conv_ReLU = self.d16conv_ReLU(l3)#[1, 128, 24, 32]
+
+        dilated_conv_concat = torch.cat((d2conv_ReLU, d4conv_ReLU, d8conv_ReLU, d16conv_ReLU), 1) #[1, 512, 21, 32]
+
         ###* A layer of convolution on different encoder layers
         sconv1 = self.conv1a(dilated_conv_concat)
         sconv1 = F.interpolate(sconv1, size=tmp_size, mode='bilinear', align_corners=True)
@@ -299,9 +301,8 @@ class ResNetLW(nn.Module):
         
         ###* 2-dim vector prediction
         pred_flux = self.predict_layer(sconcat)
-        pred_flux = F.interpolate(pred_flux, size=input_size, mode='bilinear', align_corners=True)
+        pred_flux = F.interpolate(pred_flux, size=input_size, mode='bilinear', align_corners=True) #[1, 2, 375, 500]
 
-        print(pred_flux.size())
         return pred_flux
 
 
