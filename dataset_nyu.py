@@ -13,8 +13,7 @@ class FluxSegmentationDataset(Dataset):
         self.dataset = dataset
         self.mode = mode
 
-        # file_dir = self.dataset + '/' + self.mode + '/' + self.mode + '.txt'
-        file_dir = '/content/SuperBPD/data/nyu/val.txt' ###* train.txt
+        file_dir = self.dataset + '/' + self.mode + '/' + self.mode + '.txt'
 
         self.random_flip = False
         
@@ -22,9 +21,7 @@ class FluxSegmentationDataset(Dataset):
             self.random_flip = True
 
         with open(file_dir, 'r') as f:
-            names = f.read().splitlines()
-            self.image_names = [name[4:] for name in names]
-
+            self.image_names = f.read().splitlines()
 
         self.dataset_length = len(self.image_names)
     
@@ -38,8 +35,7 @@ class FluxSegmentationDataset(Dataset):
 
         image_name = self.image_names[index]
 
-        # image_path = osp.join('nyu', self.mode, 'images', image_name + '.png')
-        image_path = osp.join('/content/drive/MyDrive/datasets/nyudv2/rgb', image_name[-6:] + '.png')
+        image_path = osp.join('nyu', self.mode, 'images', image_name + '.png')
         
         image = cv2.imread(image_path, 1)
         
@@ -63,7 +59,7 @@ class FluxSegmentationDataset(Dataset):
             label = cv2.imread(label_path, 0)
         
         elif self.dataset == 'nyu':
-            label_path = osp.join('/content/drive/MyDrive/datasets/nyudv2/masks', image_name[-6:] + '.png')
+            label_path = osp.join(self.dataset, self.mode, 'GT', image_name + '.png')
             label = cv2.imread(label_path, 0)
 
         if self.random_flip:
@@ -125,4 +121,6 @@ class FluxSegmentationDataset(Dataset):
 
         return image, vis_image, gt_mask, direction_field, weight_matrix, self.dataset_length, image_name
 
-    
+
+
+
