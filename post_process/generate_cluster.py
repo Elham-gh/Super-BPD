@@ -4,6 +4,7 @@ import math
 import scipy.io as sio
 import cv2
 import numpy as np
+from matplotlib import pyplot as plt
 
 def label2color(label):
 
@@ -28,7 +29,7 @@ def label2color(label):
 
     return color3u
 
-def write(results):
+def write(results, image_name):
   
     root_points, super_BPDs_before_dilation, super_BPDs_after_dilation, super_BPDs = results
 
@@ -37,10 +38,40 @@ def write(results):
     super_BPDs_after_dilation = super_BPDs_after_dilation.cpu().numpy()
     super_BPDs = super_BPDs.cpu().numpy()
 
-    cv2.imwrite('root.png', 255*(root_points > 0))
-    cv2.imwrite('super_BPDs.png', label2color(super_BPDs))
-    cv2.imwrite('super_BPDs_before_dilation.png', label2color(super_BPDs_before_dilation))
-    cv2.imwrite('super_BPDs_after_dilation.png', label2color(super_BPDs_after_dilation))
+    # cv2.imwrite('root.png', 255*(root_points > 0))
+    # cv2.imwrite('super_BPDs.png', label2color(super_BPDs))
+    # cv2.imwrite('super_BPDs_before_dilation.png', label2color(super_BPDs_before_dilation))
+    # cv2.imwrite('super_BPDs_after_dilation.png', label2color(super_BPDs_after_dilation))
+
+    fig = plt.figure(figsize=(10,6))
+
+    ###* ax0        input image
+    ax0 = fig.add_subplot(221)
+    ax0.imshow(255*(root_points > 0))#(vis_image[:,:,::-1])
+    ax0.set_title('root')
+
+    ax1 = fig.add_subplot(222)
+    ax1.set_title('SuperBPD')
+    ax1.set_autoscale_on(True)
+    im1 = ax1.imshow(label2color(super_BPDs))
+    # plt.colorbar(im1,shrink=0.5)
+
+    ###* ax2        
+    ax2 = fig.add_subplot(223)
+    ax2.set_title('before')
+    ax2.set_autoscale_on(True)
+    im2 = ax2.imshow(label2color(super_BPDs_before_dilation))
+    # plt.colorbar(im2, shrink=0.5)
+
+    ###* ax2        
+    ax2 = fig.add_subplot(224)
+    ax2.set_title('after')
+    ax2.set_autoscale_on(True)
+    im2 = ax2.imshow(label2color(super_BPDs_after_dilation))
+    # plt.colorbar(im2, shrink=0.5)
+
+    plt.savefig('./output/' + image_name + '.png')
+    plt.close(fig)
     
     return results
 
@@ -70,9 +101,8 @@ def main(path='./2009_004607.mat', writing=True):
     super_BPDs_before_dilation = super_BPDs_before_dilation.cpu().numpy()
     super_BPDs_after_dilation = super_BPDs_after_dilation.cpu().numpy()
 
-    
-    #if writing:
-    #    write(results)
+    if False:
+        write(results, path[-10:-4])
         
     return {'before': super_BPDs_before_dilation, 'after': super_BPDs_after_dilation}
     
