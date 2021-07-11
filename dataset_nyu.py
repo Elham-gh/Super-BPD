@@ -14,7 +14,7 @@ class FluxSegmentationDataset(Dataset):
         self.mode = mode
 
         # file_dir = self.dataset + '/' + self.mode + '/' + self.mode + '.txt'
-        file_dir = '/content/SuperBPD/data/nyu/val.txt' ###* train.txt
+        file_dir = '/content/SuperBPD/data/nyu/train.txt' ###* train.txt
 
         self.random_flip = False
         
@@ -124,5 +124,4 @@ class FluxSegmentationDataset(Dataset):
             image_name = image_name.split('/')[-1]
 
         return image, vis_image, gt_mask, direction_field, weight_matrix, self.dataset_length, image_name
-
     
