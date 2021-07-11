@@ -2,7 +2,7 @@ import argparse
 import os
 import torch
 import torch.nn as nn
-from model import VGG16
+from model import VGG16, ResNetLW, Bottleneck
 from vis_flux import vis_flux
 from dataset_nyu import FluxSegmentationDataset
 from torch.autograd import Variable
@@ -38,7 +38,7 @@ def main():
     if not os.path.exists(args.test_vis_dir + args.dataset):
         os.makedirs(args.test_vis_dir + args.dataset)
 
-    model = VGG16()
+    model = ResNetLW(Bottleneck, [3, 4, 6, 3])
 
     model.load_state_dict(torch.load(args.saved_model + 'PascalContext_400000.pth'))
 
