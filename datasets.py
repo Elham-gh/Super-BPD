@@ -8,12 +8,12 @@ IMAGE_MEAN = np.array([103.939, 116.779, 123.675], dtype=np.float32)
 
 class FluxSegmentationDataset(Dataset):
 
-    def __init__(self, dataset='PascalContext', mode='train'):
+    def __init__(self, dataset='nyu', mode='train'):
         
         self.dataset = dataset
         self.mode = mode
 
-        file_dir = 'datasets/' + self.dataset + '/' + self.mode + '.txt'
+        file_dir = self.dataset + '/' + self.mode + '/' + self.mode + '.txt'
 
         self.random_flip = False
         
@@ -35,7 +35,7 @@ class FluxSegmentationDataset(Dataset):
 
         image_name = self.image_names[index]
 
-        image_path = osp.join('datasets', self.dataset, 'images', image_name + '.jpg')
+        image_path = osp.join('nyu', self.mode, 'images', image_name + '.png')
         
         image = cv2.imread(image_path, 1)
         
@@ -56,6 +56,10 @@ class FluxSegmentationDataset(Dataset):
         
         elif self.dataset == 'BSDS500':
             label_path = osp.join('datasets', self.dataset, 'labels', image_name + '.png')
+            label = cv2.imread(label_path, 0)
+        
+        elif self.dataset == 'nyu':
+            label_path = osp.join(self.dataset, self.mode, 'GT', image_name + '.png')
             label = cv2.imread(label_path, 0)
 
         if self.random_flip:
@@ -116,7 +120,3 @@ class FluxSegmentationDataset(Dataset):
             image_name = image_name.split('/')[-1]
 
         return image, vis_image, gt_mask, direction_field, weight_matrix, self.dataset_length, image_name
-
-
-
-
