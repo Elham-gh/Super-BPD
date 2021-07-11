@@ -29,7 +29,7 @@ args = get_arguments()
 
 def main():
     
-    with open('/content/SuperBPD/data/nyu/val.txt', 'r') as f:
+    with open('/content/SuperBPD/data/nyu/all.txt', 'r') as f:
         # names = f.readlines()
         image_names = f.read().splitlines()
         names = [name[4:] for name in image_names]
