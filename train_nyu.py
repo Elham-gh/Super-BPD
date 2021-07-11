@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 from model import ResNetLW, VGG16
 from vis_flux import vis_flux
-from datasets import FluxSegmentationDataset
+from dataset_nyu import FluxSegmentationDataset
 from torch.utils.data import Dataset, DataLoader
 from model import Bottleneck
 
@@ -12,7 +12,7 @@ INI_LEARNING_RATE = 1e-5
 WEIGHT_DECAY = 5e-4
 EPOCHES = 10000
 DATASET = 'PascalContext'
-SNAPSHOT_DIR = '/content/drive/MyDrive/SuperBPD/super_resnet/snapshots/'
+SNAPSHOT_DIR = '/content/drive/MyDrive/SuperBPD/super_resnet/snapshots_nyu/'
 TRAIN_DEBUG_VIS_DIR = './train_debug_vis/'
 
 def get_arguments():
@@ -176,3 +176,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
