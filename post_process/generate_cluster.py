@@ -101,7 +101,7 @@ def main(path='./2009_004607.mat', writing=True):
     super_BPDs_before_dilation = super_BPDs_before_dilation.cpu().numpy()
     super_BPDs_after_dilation = super_BPDs_after_dilation.cpu().numpy()
 
-    if writing:
+    if False:
         write(results, path[-10:-4])
         
     return {'before': super_BPDs_before_dilation, 'after': super_BPDs_after_dilation}
