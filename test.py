@@ -4,14 +4,15 @@ import torch
 import torch.nn as nn
 from model import VGG16
 from vis_flux import vis_flux
-from datasets import FluxSegmentationDataset
+from dataset import FluxSegmentationDataset
 from torch.autograd import Variable
 import scipy.io as sio
 from torch.utils.data import Dataset, DataLoader
 
-DATASET = 'PascalContext'
-TEST_VIS_DIR = './test_pred_flux/'
+DATASET = 'sun'
+TEST_VIS_DIR = '/content/drive/MyDrive/SuperBPD/train_sun_pred_flux/'
 SNAPSHOT_DIR = './snapshots/'
+SAVED_MODEL = './saved/'
 
 def get_arguments():
     """Parse all the arguments provided from the CLI.
@@ -25,6 +26,9 @@ def get_arguments():
                         help="Directory for saving vis results during testing.")
     parser.add_argument("--snapshot-dir", type=str, default=SNAPSHOT_DIR,
                         help="Where to save snapshots of the model.")
+    parser.add_argument("--saved-model", type=str, default=SAVED_MODEL,
+                        help="saved model for generating output")                        
+                        
     return parser.parse_args()
 
 args = get_arguments()
@@ -36,12 +40,12 @@ def main():
 
     model = VGG16()
 
-    model.load_state_dict(torch.load(args.snapshot_dir + args.dataset + '_400000.pth'))
+    model.load_state_dict(torch.load(args.saved_model + 'PascalContext_400000.pth'))
 
     model.eval()
     model.cuda()
     
-    dataloader = DataLoader(FluxSegmentationDataset(dataset=args.dataset, mode='test'), batch_size=1, shuffle=False, num_workers=4)
+    dataloader = DataLoader(FluxSegmentationDataset(dataset=args.dataset, mode='val'), batch_size=1, shuffle=False, num_workers=4)
 
     for i_iter, batch_data in enumerate(dataloader):
 
@@ -67,8 +71,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
