@@ -8,12 +8,13 @@ IMAGE_MEAN = np.array([103.939, 116.779, 123.675], dtype=np.float32)
 
 class FluxSegmentationDataset(Dataset):
 
-    def __init__(self, dataset='PascalContext', mode='train'):
+    def __init__(self, dataset='sun', mode='train'):
         
         self.dataset = dataset
         self.mode = mode
 
-        file_dir = 'datasets/' + self.dataset + '/' + self.mode + '.txt'
+        # file_dir = self.dataset + '/' + self.mode + '/' + self.mode + '.txt'
+        file_dir = '/content/drive/MyDrive/datasets/sunrgbd/train/train.txt'
 
         self.random_flip = False
         
@@ -21,7 +22,9 @@ class FluxSegmentationDataset(Dataset):
             self.random_flip = True
 
         with open(file_dir, 'r') as f:
-            self.image_names = f.read().splitlines()
+            names = f.read().splitlines()
+            self.image_names = [name[4:] for name in names]
+
 
         self.dataset_length = len(self.image_names)
     
@@ -35,7 +38,8 @@ class FluxSegmentationDataset(Dataset):
 
         image_name = self.image_names[index]
 
-        image_path = osp.join('datasets', self.dataset, 'images', image_name + '.jpg')
+        # image_path = osp.join('nyu', self.mode, 'images', image_name + '.png')
+        image_path = osp.join('/content/drive/MyDrive/datasets/sunrgbd/train/images', image_name + '.png')
         
         image = cv2.imread(image_path, 1)
         
@@ -56,6 +60,14 @@ class FluxSegmentationDataset(Dataset):
         
         elif self.dataset == 'BSDS500':
             label_path = osp.join('datasets', self.dataset, 'labels', image_name + '.png')
+            label = cv2.imread(label_path, 0)
+        
+        elif self.dataset == 'nyu':
+            label_path = osp.join('/content/drive/MyDrive/datasets/nyudv2/masks', image_name[-6:] + '.png')
+            label = cv2.imread(label_path, 0)
+
+        elif self.dataset == 'sun':
+            label_path = osp.join('/content/drive/MyDrive/datasets/sunrgbd/train/labels', image_name + '.png')
             label = cv2.imread(label_path, 0)
 
         if self.random_flip:
@@ -117,6 +129,4 @@ class FluxSegmentationDataset(Dataset):
 
         return image, vis_image, gt_mask, direction_field, weight_matrix, self.dataset_length, image_name
 
-
-
-
+    
