@@ -66,7 +66,9 @@ class FluxSegmentationDataset(Dataset):
             label = cv2.imread(label_path, 0)
 
         elif self.dataset == 'sun':
-            label_path = osp.join('/content/drive/MyDrive/datasets/sunrgbd/train/labels', 'img-' + image_name + '.png')
+            label_path = '/content/drive/MyDrive/datasets/sunrgbd/train/labels/img-' + image_name + '.png'
+            
+            print(label_path)
             label = cv2.imread(label_path, 0)
 
         if self.random_flip:
