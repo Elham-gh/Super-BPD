@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 from model import VGG16
 from vis_flux import vis_flux
-from dataset import FluxSegmentationDataset
+from datasets import FluxSegmentationDataset
 from torch.autograd import Variable
 import scipy.io as sio
 from torch.utils.data import Dataset, DataLoader
